@@ -1,7 +1,22 @@
 AddCSLuaFile()
 --Created by Nguyen-Gmod
 SWEP.Instructions	= "Shoot a door to blow it down."
-SWEP.Base			= "weapon_base"
+if (engine.ActiveGamemode() == "terrortown") then
+	SWEP.Base = "weapon_tttbase"
+	SWEP.Kind = WEAPON_EQUIP1
+	SWEP.AmmoEnt = "item_box_buckshot_ttt"
+	SWEP.Icon = "entities/weapon_doorbuster_ttt"
+	SWEP.CanBuy = {ROLE_TRAITOR}
+	SWEP.InLoadoutFor = nil
+	SWEP.LimitedStock = false
+	SWEP.AllowDrop = false
+	SWEP.EquipMenuData = {
+	   type = "Door Buster",
+	   desc = "A shotgun that shoots down doors."
+	}
+else
+	SWEP.Base			= "weapon_base"
+end
 SWEP.Spawnable			= true
 SWEP.AdminOnly			= true
 SWEP.UseHands			= true
@@ -71,7 +86,7 @@ end
 
 function SWEP:PrimaryAttack()
 	if ( !self:CanPrimaryAttack() ) then return end
-	self:ShootBullet(15, 8, .03, self.Primary.Ammo, 1, 1 )
+	self:ShootBullet(50, 8, .03, self.Primary.Ammo, 1, 1 )
 	self:EmitSound(ShootSound)
 	self:SetNextPrimaryFire(CurTime()+.7)
 	self:TakePrimaryAmmo(1) 
@@ -96,7 +111,7 @@ function SWEP:ShouldDrawViewModel()
 end
 
 function SWEP:ShouldDropOnDie()
-	return true
+	return false
 end
 
 function SWEP:Reload()
